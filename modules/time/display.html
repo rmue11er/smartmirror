@@ -1,18 +1,18 @@
 <script>
 $(document).ready(function() {
-	moment.locale('de');
+	moment.locale('en');
     $("#time").html(moment().format("HH:mm:ss"));
-    $("#date").html(moment().format("dddd[, den] D[.] MMMM"));
+    $("#date").html(moment().format("LL"));
     $("#icon").html(getTimeIcon());
     var refreshId = setInterval(function() {
        $("#time").html(moment().format("HH:mm:ss"));
-       $("#date").html(moment().format("dddd[, den] D[.] MMMM"));
+       $("#date").html(moment().format("LL"));
        $("#icon").html(getTimeIcon());
     }, 1000);
  });
 </script>
 
 <div class="screen top">
-	<div id="icon"></div> <div id="time"></div>
+	<div id="icon" class="inline"></div> <div class="inline" id="time"></div>
 	<div id="date"></div>
 </div>
