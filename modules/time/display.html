@@ -1,6 +1,11 @@
 <script>
 $(document).ready(function() {
-	moment.locale('en');
+
+	 $.getJSON('http://freegeoip.net/json', function(result) {
+		 var country_code = result.country_code; 
+		 moment.locale(country_code);
+	  });
+	 
     $("#time").html(moment().format("HH:mm:ss"));
     $("#date").html(moment().format("LL"));
     $("#icon").html(getTimeIcon());
@@ -10,6 +15,7 @@ $(document).ready(function() {
        $("#icon").html(getTimeIcon());
     }, 1000);
  });
+
 </script>
 
 <div class="screen top">

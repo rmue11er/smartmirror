@@ -2,7 +2,6 @@ function getTimeIcon(){
 	var icon = null;
 	var hour = moment().hours();
 	
-	
 	if(hour >= 0) icon = '<i class="wi wi-night-clear"></i>';
 	if(hour > 2) icon = '<i class="wi wi-moonset"></i>';
 	if(hour > 4) icon = '<i class="wi wi-sunrise"></i>';
