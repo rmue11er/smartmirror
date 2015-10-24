@@ -1,8 +1,9 @@
 <?php 
 class Updater {
 	
-	function Updater($id){
-		/** TODO add content **/
+	function Updater(){
+		$id = file_get_contents("config.dat");
+		/** TODO add updater/version checker **/
 	}
 }
 ?>

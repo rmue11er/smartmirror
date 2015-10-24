@@ -13,16 +13,31 @@
   <body>
     <?php 
     	//Load Modules
-	    if ($handle = opendir('./modules/')) {
+    	$path = "./modules/";
+    	$files = null;
+    	$modules = null;
+	    $iterator = new RecursiveIteratorIterator(
+	    		new RecursiveDirectoryIterator($path),
+	    		RecursiveIteratorIterator::SELF_FIRST);
 	    
-	    	while (false !== ($entry = readdir($handle))) {
-		    	if (strpos($entry, ".") !== true) {
-				    echo $entry." will be loaded";
-				}
+	    foreach($iterator as $file) {
+	    	if($file->isDir()) {
+	    		if($file->getFilename() != "." && $file->getFilename() != ".."){
+	    			include("./modules/".$file->getFilename()."/".$file->getFilename().".php");
+	    			$files .= $module_files;
+	    			$modules .= $module_name.";";
+	    		}
+	    		
 	    	}
+	    }	
 	    
-	    	closedir($handle);
-	    }
+	    //Format file list
+	    $files = substr($files, 1);
+	    $files = explode(";", $files);
+	    
+	    //Load Module-Files
+	    for($i = 0; $i < sizeof($files); $i++)
+	    	include($files[$i]);
     ?>
     
 
