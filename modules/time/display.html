@@ -1,8 +1,16 @@
-<div id="clock" class="light">
-	<div class="display">
-		<div class="weekdays"></div>
-		<div class="ampm"></div>
-		<div class="alarm"></div>
-		<div class="digits"></div>
-	</div>
+<script>
+$(document).ready(function() {
+	moment.locale('de');
+    $("#time").html(moment().format("HH:mm:ss"));
+    $("#date").html(moment().format("dddd"));
+    var refreshId = setInterval(function() {
+       $("#time").html(moment().format("HH:mm:ss"));
+       $("#date").html(moment().format("dddd"));
+    }, 1000);
+ });
+</script>
+
+<div class="centered">
+	<div id="time"></div>
+	<div id="date"></div>
 </div>

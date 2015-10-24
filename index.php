@@ -43,12 +43,14 @@
 	    
 	    //Load Module-Files
 	    for($i = 0; $i < sizeof($files); $i++){
-	    	$pos = strpos($files[$i], ".js");
-	    	if($pos == true){
-	    		echo '<script src="'.$files[$i].'"></script>';
-	    	} else {
-	    		include($files[$i]);
-	    	}
+	    	$js = strpos($files[$i], ".js");
+	    	$css = strpos($files[$i], ".css");
+	    	$php = strpos($files[$i], ".php");
+	    	$html = strpos($files[$i], ".html");
+	    	
+	    	if($js == true) echo '<script src="'.$files[$i].'"></script>';
+	    	if($css == true) echo '<link href="'.$files[$i].'" rel="stylesheet">';
+	    	if($php == true || $html == true) include($files[$i]);
 	    }
     ?>
     

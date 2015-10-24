@@ -1,6 +1,6 @@
 /** Main **/
 * { color: #fff; font-family: Roboto Condensed; }
-body { background-color: #000; }
+body { background-color: #000; font-size: 26px; }
 
 /** Helper Classes **/
 .centered { text-align: center; }
