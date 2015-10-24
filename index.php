@@ -9,6 +9,10 @@
     <!-- CSS -->
     <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:300' rel='stylesheet' type='text/css'> <!-- Font -->
     <link href="css/style.css" rel="stylesheet">
+    
+    <!-- JS -->
+    <script src="js/jquery.js"></script>
+    
   </head>
   <body>
     <?php 
@@ -24,6 +28,8 @@
 	    	if($file->isDir()) {
 	    		if($file->getFilename() != "." && $file->getFilename() != ".."){
 	    			include("./modules/".$file->getFilename()."/".$file->getFilename().".php");
+	    			
+	    			$module_files = ";".$module_files;
 	    			$files .= $module_files;
 	    			$modules .= $module_name.";";
 	    		}
@@ -36,12 +42,15 @@
 	    $files = explode(";", $files);
 	    
 	    //Load Module-Files
-	    for($i = 0; $i < sizeof($files); $i++)
-	    	include($files[$i]);
+	    for($i = 0; $i < sizeof($files); $i++){
+	    	$pos = strpos($files[$i], ".js");
+	    	if($pos == true){
+	    		echo '<script src="'.$files[$i].'"></script>';
+	    	} else {
+	    		include($files[$i]);
+	    	}
+	    }
     ?>
     
-
-    <!-- JS -->
-    <script src="js/jquery.js"></script>
   </body>
 </html>
