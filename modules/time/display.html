@@ -2,15 +2,17 @@
 $(document).ready(function() {
 	moment.locale('de');
     $("#time").html(moment().format("HH:mm:ss"));
-    $("#date").html(moment().format("dddd"));
+    $("#date").html(moment().format("dddd[, den] D[.] MMMM"));
+    $("#icon").html(getTimeIcon());
     var refreshId = setInterval(function() {
        $("#time").html(moment().format("HH:mm:ss"));
-       $("#date").html(moment().format("dddd"));
+       $("#date").html(moment().format("dddd[, den] D[.] MMMM"));
+       $("#icon").html(getTimeIcon());
     }, 1000);
  });
 </script>
 
-<div class="centered">
-	<div id="time"></div>
+<div class="screen top">
+	<div id="icon"></div> <div id="time"></div>
 	<div id="date"></div>
 </div>

@@ -8,6 +8,7 @@
 
     <!-- CSS -->
     <link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:300' rel='stylesheet' type='text/css'> <!-- Font -->
+	<link href="css/weather-icons.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
     
     <!-- JS -->
@@ -53,6 +54,5 @@
 	    	if($php == true || $html == true) include($files[$i]);
 	    }
     ?>
-    
   </body>
 </html>
