@@ -15,9 +15,17 @@
     <!-- JS -->
     <script src="js/jquery.js"></script>
     
+    <!-- Updater -->
+    <?php require_once("./updater/updater.class.php");
+    	  $updater = new Updater();
+   	?>
+    
   </head>
   <body>
     <?php 
+    	//Load Updater
+    	
+    
     	//Load Modules
     	$path = "./modules/";
     	$files = null;
@@ -54,6 +62,8 @@
 	    	if($css == true) echo '<link href="'.$files[$i].'" rel="stylesheet">';
 	    	if($php == true || $html == true) include($files[$i]);
 	    }
+	    
+	    echo '<div class="version screen bottom put right">#'.$updater->getUniqueId().'</div>';
     ?>
   </body>
 </html>
