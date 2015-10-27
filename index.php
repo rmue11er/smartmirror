@@ -24,7 +24,10 @@
   <body>
     <?php 
     	//Load Updater
-    	
+    	$checker = $updater->checkNewVersion();
+    	if($checker == false){
+    		echo "no new version found";
+    	} else { echo $checker.":<br>".$updater->makeUpdate(); }
     
     	//Load Modules
     	$path = "./modules/";
