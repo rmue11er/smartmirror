@@ -23,11 +23,17 @@
   </head>
   <body>
     <?php 
+    	/**
+    	 *    Copyright 2015 René Müller
+    	 * @author René Müller aka René Uchiha
+    	 * @version 0.1 ALPHA
+    	 */
+    
     	//Load Updater
     	$checker = $updater->checkNewVersion();
     	if($checker == false){
     		echo "no new version found";
-    	} else { echo $checker.":<br>".$updater->makeUpdate(); }
+    	} else { echo $updater->makeUpdate(); }
     
     	//Load Modules
     	$path = "./modules/";
