@@ -23,48 +23,62 @@ class Updater {
 		}
 	}
 	
+	function downloadRequirements($version, $todo){
+		for($i = 0; $i < sizeof($todo); $i++){
+			if(strpos($todo[$i], 'del') !== FALSE){
+				/** Format String **/
+				$todo[$i] = str_replace('del', '', $todo[$i]);
+				$todo[$i] = './'.ltrim($todo[$i]);
+					
+				if(is_file($todo[$i])) unlink($todo[$i]);
+				if(is_dir($todo[$i])) $this->deleteDir($todo[$i]);
+			}
+		
+			if(strpos($todo[$i], 'addFile') !== FALSE){
+				$todo[$i] = str_replace('addFile', '', $todo[$i]);
+					
+				$todo[$i] = str_replace(' ', '', $todo[$i]);
+				$download = explode('@', $todo[$i]);
+					
+				$file = fopen($download[1], "w");
+				fwrite($file, file_get_contents(ltrim($download[0])));
+				fclose($file);
+			}
+		
+			if(strpos($todo[$i], 'addDir') !== FALSE){
+				$todo[$i] = str_replace('addDir', '', $todo[$i]);
+		
+				$todo[$i] = str_replace(' ', '', $todo[$i]);
+				$todo[$i] = './'.ltrim($todo[$i]);
+		
+				if(!is_dir($todo[$i])) mkdir($todo[$i]);
+			}
+		}
+	}
+	
 	function makeUpdate(){
 		$version = null;
 		if($this->checkNewVersion() != false || $this->checkNewVersion() != null) $version = $this->checkNewVersion();
 		
 		if($version != null){
-			$todo = explode(';', $this->getTodo($version));
+			/** Check for requirements **/
+			 $request = hash('sha1', $this->getUniqueId());
+			 $requirement = file_get_contents($this->hostname."updates/".$request."/".$version."/requires.txt");
+			 if($requirement != null){ 
+			 	echo $version;
+			 	if(floatval($this->getCurrentVersion()) < floatval($requirement)){
+				 	$rlist = explode(';', $this->getTodo($requirement)); 
+				 	$this->downloadRequirements($requirement, $rlist);
+			 	}
+			 }
 			
-			for($i = 0; $i < sizeof($todo); $i++){
-				if(strpos($todo[$i], 'del') !== FALSE){
-					/** Format String **/
-					 $todo[$i] = str_replace('del', '', $todo[$i]);
-					 $todo[$i] = './'.ltrim($todo[$i]);
-					
-					if(is_file($todo[$i])) unlink($todo[$i]);
-					if(is_dir($todo[$i])) $this->deleteDir($todo[$i]);
-				}
-				
-				if(strpos($todo[$i], 'addFile') !== FALSE){
-					$todo[$i] = str_replace('addFile', '', $todo[$i]);
-					
-					$todo[$i] = str_replace(' ', '', $todo[$i]);
-					$download = explode('@', $todo[$i]);
-					
-					$file = fopen($download[1], "w");
-					fwrite($file, file_get_contents(ltrim($download[0])));
-					fclose($file);
-				}
-				
-				if(strpos($todo[$i], 'addDir') !== FALSE){
-					$todo[$i] = str_replace('addDir', '', $todo[$i]);
-						
-					$todo[$i] = str_replace(' ', '', $todo[$i]);
-					$todo[$i] = './'.ltrim($todo[$i]);
-						
-					if(!is_dir($todo[$i])) mkdir($todo[$i]);
-				}
-			}
+			$todo = explode(';', $this->getTodo($version));
+			$this->downloadRequirements($version, $todo);
 			
 			$update_version = $this->setVersion($version);
 			
 			//return
-			if($update_version == false){ return false; } else { return true; }
+			 if($update_version == false){ return false; } else { return true; }
 		} else {
 			return false;
 		}
@@ -147,6 +161,12 @@ class Updater {
 		$uid = explode('=', $this->config[1]);
 		
 		return $uid[1];
+	}
+	
+	function getCurrentVersion(){
+		$version = file_get_contents("./updater/version.dat");
+	
+		return $version;
 	}
 	
 	function setVersion($version){
