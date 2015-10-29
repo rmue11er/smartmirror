@@ -36,20 +36,28 @@ class Updater {
 					 $todo[$i] = str_replace('del', '', $todo[$i]);
 					 $todo[$i] = './'.ltrim($todo[$i]);
 					
-					if(file_exists($todo[$i])) unlink($todo[$i]);
-					if(is_dir($todo[$i])) rmdir($todo[$i]);
+					if(is_file($todo[$i])) unlink($todo[$i]);
+					if(is_dir($todo[$i])) $this->deleteDir($todo[$i]);
 				}
 				
-				if(strpos($todo[$i], 'add') !== FALSE){
-					$todo[$i] = str_replace('add', '', $todo[$i]);
+				if(strpos($todo[$i], 'addFile') !== FALSE){
+					$todo[$i] = str_replace('addFile', '', $todo[$i]);
 					
 					$todo[$i] = str_replace(' ', '', $todo[$i]);
 					$download = explode('@', $todo[$i]);
 					
 					$file = fopen($download[1], "w");
-					/** @TODO fix loadFile **/
-					fwrite($file, $this->loadFile($download[0]));
+					fwrite($file, file_get_contents(ltrim($download[0])));
 					fclose($file);
+				}
+				
+				if(strpos($todo[$i], 'addDir') !== FALSE){
+					$todo[$i] = str_replace('addDir', '', $todo[$i]);
+						
+					$todo[$i] = str_replace(' ', '', $todo[$i]);
+					$todo[$i] = './'.ltrim($todo[$i]);
+						
+					if(!is_dir($todo[$i])) mkdir($todo[$i]);
 				}
 			}
 			
@@ -151,10 +159,22 @@ class Updater {
 		}
 	}
 	
-	function loadFile($url) {
-		$data = file_get_contents($url);
-	
-		return $data;
+	function deleteDir($path) {
+		if (!is_dir($path)) {
+			return false;
+		}
+		if (substr($path, strlen($path) - 1, 1) != '/') {
+			$dirPath .= '/';
+		}
+		$files = glob($path . '*', GLOB_MARK);
+		foreach ($files as $file) {
+			if (is_dir($file)) {
+				self::deleteDir($file);
+			} else {
+				unlink($file);
+			}
+		}
+		rmdir($path);
 	}
 }
 ?>
