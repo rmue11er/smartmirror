@@ -15,5 +15,9 @@ body { background-color: #000; font-size: 32px; }
 .put { bottom: 10px; }
  .right { text-align: right; right: 20px; }
  .left { text-align: left; left: 20px; }
+ .danger { color: #d9534f; }
  
+/** Themed Classes **/
 .version { font-size: 21px; }
+.update { font-size: 14px; padding: 6px 6px 0 0; }
+.update i { font-size: 12px; }

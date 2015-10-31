@@ -9,7 +9,7 @@ class Updater {
 	var $config = "";
 	var $hostname = "http://smartmirror.rene-uchiha.com/";
 	var $userid = 0;
-	var $key = "apitest";
+	var $key = "dswo478dmn:DEp";
 	
 	// Fetch Files >>update process
 	function getTodo($version){
@@ -61,26 +61,23 @@ class Updater {
 		if($this->checkNewVersion() != false || $this->checkNewVersion() != null) $version = $this->checkNewVersion();
 		
 		if($version != null){
-			/** Check for requirements **/
-			 $request = hash('sha1', $this->getUniqueId());
-			 $requirement = file_get_contents($this->hostname."updates/".$request."/".$version."/requires.txt");
-			 if($requirement != null){ 
-			 	echo $version;
-			 	if(floatval($this->getCurrentVersion()) < floatval($requirement)){
-				 	$rlist = explode(';', $this->getTodo($requirement)); 
-				 	$this->downloadRequirements($requirement, $rlist);
-			 	}
-			 }
-			
-			$todo = explode(';', $this->getTodo($version));
-			$this->downloadRequirements($version, $todo);
-			
-			$update_version = $this->setVersion($version);
-			
-			//return
-			 if($update_version == false){ return false; } else { return true; }
+				 $request = hash('sha1', $this->getUniqueId());
+				 $requirement = file_get_contents($this->hostname."updates/".$request."/".$version."/requires.txt");
+				 if($requirement != null){ 
+				 	if(floatval($this->getCurrentVersion()) < floatval($requirement)){
+					 	$rlist = explode(';', $this->getTodo($requirement)); 
+					 	$this->downloadRequirements($requirement, $rlist);
+				 	}
+				 }
+				
+				$todo = explode(';', $this->getTodo($version));
+				$this->downloadRequirements($version, $todo);
+				
+				$setV = $this->setVersion($version);
+				if($setV) return true;
 		} else {
 			return false;
+			$this->setVersion($this->getCurrentVersion());
 		}
 	}
 	
@@ -90,13 +87,13 @@ class Updater {
 			if(!file_exists("./updater/config.dat")){
 				$cfg = fopen("./updater/config.dat", "w") or die("<b>Couldn't retrieve update:</b> <em>config.dat</em> isn't writable!");
 				fwrite($cfg, "server=".$this->hostname.";\r\n");
-				fwrite($cfg, "userid=".$this->userid.";");
+				fwrite($cfg, "userid=".$this->getNewId().";");
 				fclose($cfg);
 			}
 		} else {
 			$cfg = fopen("./updater/config.dat", "w") or die("<b>Couldn't retrieve update:</b> <em>config.dat</em> isn't writable!");
 			fwrite($cfg, "server=".$this->hostname.";\r\n");
-			fwrite($cfg, "userid=".$this->userid.";");
+			fwrite($cfg, "userid=".$this->getNewId().";");
 			fclose($cfg);
 		}
 	}
@@ -125,8 +122,6 @@ class Updater {
 	
 	
 	function Updater(){
-		$this->userid = $this->getNewId();
-		
 		$this->checkFile(true);
 		$conf_check = file_get_contents("./updater/config.dat");
 		$conf_check = explode(';', $conf_check);
@@ -139,6 +134,7 @@ class Updater {
 		//Update the Array
 		 $this->config = file_get_contents("./updater/config.dat");
 		 $this->config = explode(';', $this->config);
+		 $this->userid = $this->getUniqueId();
 	}
 	
 	function getServer(){
@@ -174,6 +170,8 @@ class Updater {
 			$cfg = fopen("./updater/version.dat", "w");
 			fwrite($cfg, $version);
 			fclose($cfg);
+			
+			return true;
 		} else {
 			return false;
 		}
