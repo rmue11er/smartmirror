@@ -8,9 +8,9 @@ $obj = $reddit->getListing("news", 5);
 <div class="screen bottom" id="scrollerWrapper">
 	<ul id="scroller">
 		<?php
-			for($z = 0; $z < 6; $z++){
+			for($z = 0; $z < 5; $z++){
 				$title = $obj->data->children[$z]->data->title;
-				echo("<li>+++ ".$title."</li>");
+				echo("<li> +++ ".$title. "&nbsp;</li>");
 			}
 		?>
 	</ul>

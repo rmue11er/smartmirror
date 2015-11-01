@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    var speed = 5;
+    var speed = 2;
     var items, scroller = $('#scroller');
     var width = 0;
     scroller.children().each(function(){
