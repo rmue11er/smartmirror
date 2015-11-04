@@ -18,8 +18,6 @@ $obj = $reddit->getListing("news", 5);
 			
 			if($failure == false){
 				echo $output;
-			} else {
-				echo "<li>This widget requires WIFI</li>";
 			}
 		?>
 	</ul>
