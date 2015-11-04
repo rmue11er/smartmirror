@@ -25,6 +25,7 @@
     <?php require_once("./updater/updater.class.php");
     	  $updater = new Updater();
     	  if(!isset($_GET["debug"])) error_reporting(0);
+    	  if(isset($_GET["phpinfo"])) phpinfo();
    	?>
     
   </head>
