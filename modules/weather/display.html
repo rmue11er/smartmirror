@@ -6,11 +6,10 @@
 </div>
 
 	<script>
-	var lang = "";
 	var api_key = getUrlParameter('appid');
 	$.getJSON('http://www.telize.com/geoip', function(result) {
-		 lang = result.country_code;
-		 moment.locale(lang);
+		 var lang = result.country_code;
+		 moment.locale(result.country_code);
 		 var lon = result.longitude;
 		 var lat = result.latitude;
 		 
