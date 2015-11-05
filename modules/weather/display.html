@@ -1,0 +1,30 @@
+<!-- http://api.openweathermap.org/data/2.5/weather?q=London,uk -->
+<div class="screen middle put left weather">
+	<div class="today">
+		<i id="today" class="wi wi-na"></i> <sup id="today-day"></sup> <span id="today-degree">--</span><br>
+	</div>
+</div>
+
+	<script>
+	var lang = "";
+	var api_key = getUrlParameter('appid');
+	$.getJSON('http://www.telize.com/geoip', function(result) {
+		 lang = result.country_code;
+		 moment.locale(lang);
+		 var lon = result.longitude;
+		 var lat = result.latitude;
+		 
+		 $.getJSON('http://api.openweathermap.org/data/2.5/weather?lon='+lon+'&lat='+lat+'&lang='+lang+'&cnt=1&appid='+api_key, function(result) { 
+			 var icon = getIcon(result.weather[0].main);
+			 $("#today").toggleClass('wi-na '+icon);
+			 if(lang == "uk"){
+			 	var degree = result.main.temp;
+			 } else {
+			 	var degree = Math.round(result.main.temp) - 273;
+			 }
+			 $("#today-degree").text(degree+"°");
+			 $("#today-day").text(moment().format('dddd'));
+		  });
+		 
+	  });
+	</script>

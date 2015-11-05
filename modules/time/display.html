@@ -1,7 +1,7 @@
 <script>
 $(document).ready(function() {
-
-	 $.getJSON('http://freegeoip.net/json', function(result) {
+	
+	 $.getJSON('http://www.telize.com/geoip', function(result) {
 		 var country_code = result.country_code; 
 		 moment.locale(country_code);
 	  });
