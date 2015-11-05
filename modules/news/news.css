@@ -1,7 +1,8 @@
 #scrollerWrapper {
-	height: 34px;
+	height: 54px;
 	font-size: 36px;
 	overflow: hidden;
+	margin-bottom: 15px;
 }
 
 #scroller { 
@@ -13,7 +14,7 @@
 }
 #scroller li {
 	float: left;
-	height: 34px;
+	height: 54px;
 	list-style-position: inside;
 	list-style: none;
 	overflow: hidden;
