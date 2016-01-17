@@ -7,7 +7,7 @@
 class Updater {
 	
 	var $config = "";
-	var $hostname = "http://smartmirror.rene-uchiha.com/";
+	var $hostname = "http://dev.rene-uchiha.com/smartmirror/";
 	var $userid = 0;
 	var $key = "dswo478dmn:DEp";
 	
